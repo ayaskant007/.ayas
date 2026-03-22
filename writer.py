@@ -31,20 +31,46 @@ class AyasApp:
         # App Title in Sidebar
         self.title_font = font.Font(family="Segoe UI", size=20, weight="bold")
         self.sidebar_title = tk.Label(
-            self.sidebar, text="AYAS Studio", font=self.title_font, bg="#1e1e1e", fg="white")
+            self.sidebar, text=".ayas Studio", font=self.title_font, bg="#1e1e1e", fg="white")
         self.sidebar_title.pack(pady=40)
 
         # Navigation Buttons
         self.nav_font = font.Font(family="Segoe UI", size=14)
 
-        self.btn_nav_convert = tk.Button(self.sidebar, text="Converter", font=self.nav_font,
-                                         bg="#333333", fg="white", bd=0, cursor="hand2",
-                                         command=self.show_converter_page)
+        # self.btn_nav_convert = tk.Button(self.sidebar, text="Converter", font=self.nav_font,
+        #                                  bg="#333333", fg="white", bd=0, cursor="hand2",
+        #                                  command=self.show_converter_page)
+        self.btn_nav_convert = customtkinter.CTkButton(
+            self.sidebar,
+            text="Converter",
+            command=self.show_converter_page,
+            fg_color="#333333",
+            hover_color="#1E1E1E",
+            height=50,
+            font=("Segoe UI", 20, "bold"),
+            border_color='black',
+            border_width=3,
+            border_spacing=10,
+            corner_radius=30,
+        )
         self.btn_nav_convert.pack(fill="x", pady=5, padx=10, ipady=10)
 
-        self.btn_nav_view = tk.Button(self.sidebar, text="Viewer", font=self.nav_font,
-                                      bg="#333333", fg="white", bd=0, cursor="hand2",
-                                      command=self.show_viewer_page)
+        # self.btn_nav_view = tk.Button(self.sidebar, text="Viewer", font=self.nav_font,
+        #                               bg="#333333", fg="white", bd=0, cursor="hand2",
+        #                               command=self.show_viewer_page)
+        self.btn_nav_view = customtkinter.CTkButton(
+            self.sidebar,
+            text="Viewer",
+            command=self.show_viewer_page,
+            fg_color="#333333",
+            hover_color="#1E1E1E",
+            height=50,
+            font=("Segoe UI", 20, "bold"),
+            border_color='black',
+            border_width=3,
+            border_spacing=10,
+            corner_radius=30,
+        )
         self.btn_nav_view.pack(fill="x", pady=5, padx=10, ipady=10)
 
 
