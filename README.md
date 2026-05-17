@@ -28,3 +28,5 @@ The app has a converter and a viewer, the converter converts a normal image file
 ```bash
 python writer.py
 ```
+
+or go to releases and download the .exe file
