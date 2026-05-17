@@ -7,41 +7,29 @@ import customtkinter
 
 
 class AyasApp:
-    def __init__(self, root):
-        self.root = root
-        self.root.title("AYAS Image Studio")
-        self.root.geometry("1920x1080")
-        self.root.configure(bg='black')
+    def __init__(self, wnd):
+        self.wnd = wnd
+        self.wnd.title("AYAS Image Studio")
+        self.wnd.geometry("1920x1080")
+        self.wnd.configure(bg='black')
 
+        self.side_pane_z = tk.Frame(self.wnd, bg="#1e1e1e", width=250)
+        self.side_pane_z.pack(side="left", fill="y")
+        self.side_pane_z.pack_propagate(False)
 
-        # Sidebar Frame (Left)
-        self.sidebar = tk.Frame(self.root, bg="#1e1e1e", width=250)
-        self.sidebar.pack(side="left", fill="y")
-        self.sidebar.pack_propagate(False)  # Prevents sidebar from shrinking
+        self.main_zone_q = tk.Frame(self.wnd, bg="black")
+        self.main_zone_q.pack(side="right", fill="both", expand=True)
+        self.main_zone_q.grid_rowconfigure(0, weight=1)
+        self.main_zone_q.grid_columnconfigure(0, weight=1)
 
-        # Main Content Container (Right)
-        self.main_area = tk.Frame(self.root, bg="black")
-        self.main_area.pack(side="right", fill="both", expand=True)
-        # Configure the grid so pages stack directly on top of each other
-        self.main_area.grid_rowconfigure(0, weight=1)
-        self.main_area.grid_columnconfigure(0, weight=1)
+        self.hdr_font_k = font.Font(family="Segoe UI", size=20, weight="bold")
+        self.lbl_title_m = tk.Label(self.side_pane_z, text=".ayas Studio", font=self.hdr_font_k, bg="#1e1e1e", fg="white")
+        self.lbl_title_m.pack(pady=40)
 
+        self.nav_font_p = font.Font(family="Segoe UI", size=14)
 
-
-        # App Title in Sidebar
-        self.title_font = font.Font(family="Segoe UI", size=20, weight="bold")
-        self.sidebar_title = tk.Label(
-            self.sidebar, text=".ayas Studio", font=self.title_font, bg="#1e1e1e", fg="white")
-        self.sidebar_title.pack(pady=40)
-
-        # Navigation Buttons
-        self.nav_font = font.Font(family="Segoe UI", size=14)
-
-        # self.btn_nav_convert = tk.Button(self.sidebar, text="Converter", font=self.nav_font,
-        #                                  bg="#333333", fg="white", bd=0, cursor="hand2",
-        #                                  command=self.show_converter_page)
-        self.btn_nav_convert = customtkinter.CTkButton(
-            self.sidebar,
+        self.btn_conv_x = customtkinter.CTkButton(
+            self.side_pane_z,
             text="Converter",
             command=self.show_converter_page,
             fg_color="#333333",
@@ -53,13 +41,10 @@ class AyasApp:
             border_spacing=10,
             corner_radius=30,
         )
-        self.btn_nav_convert.pack(fill="x", pady=5, padx=10, ipady=10)
+        self.btn_conv_x.pack(fill="x", pady=5, padx=10, ipady=10)
 
-        # self.btn_nav_view = tk.Button(self.sidebar, text="Viewer", font=self.nav_font,
-        #                               bg="#333333", fg="white", bd=0, cursor="hand2",
-        #                               command=self.show_viewer_page)
-        self.btn_nav_view = customtkinter.CTkButton(
-            self.sidebar,
+        self.btn_view_y = customtkinter.CTkButton(
+            self.side_pane_z,
             text="Viewer",
             command=self.show_viewer_page,
             fg_color="#333333",
@@ -71,60 +56,43 @@ class AyasApp:
             border_spacing=10,
             corner_radius=30,
         )
-        self.btn_nav_view.pack(fill="x", pady=5, padx=10, ipady=10)
+        self.btn_view_y.pack(fill="x", pady=5, padx=10, ipady=10)
 
+        self.pg_conv_a = tk.Frame(self.main_zone_q, bg="black")
+        self.pg_view_b = tk.Frame(self.main_zone_q, bg="black")
 
-
-        # Create the frames for the two pages
-        self.page_converter = tk.Frame(self.main_area, bg="black")
-        self.page_viewer = tk.Frame(self.main_area, bg="black")
-
-        # Put both pages in the exact same grid spot (row 0, column 0)
-        for frame in (self.page_converter, self.page_viewer):
+        for frame in (self.pg_conv_a, self.pg_view_b):
             frame.grid(row=0, column=0, sticky="nsew")
 
-        # Build the contents of each page
         self.build_converter_page()
         self.build_viewer_page()
-
-        # Start the app showing the converter page by default
         self.show_converter_page()
 
-
-
     def build_converter_page(self):
-        lbl = tk.Label(self.page_converter, text="Convert Image to .ayas", font=(
-            "Segoe UI", 28), bg="black", fg="white")
-        lbl.pack(pady=(100, 30))
+        heading_conv = tk.Label(self.pg_conv_a, text="Convert Image to .ayas", font=("Segoe UI", 28), bg="black", fg="white")
+        heading_conv.pack(pady=(100, 30))
 
-        btn = customtkinter.CTkButton(
-            self.page_converter, 
-            text="Select File & Convert", 
+        conv_btn = customtkinter.CTkButton(
+            self.pg_conv_a,
+            text="Select File & Convert",
             command=self.convert,
             fg_color="#2ecc71",
             hover_color="#21a257",
-            width=500, 
-            height=100, 
+            width=500,
+            height=100,
             font=("Segoe UI", 26, "bold"),
             border_color='black',
             border_width=3,
             border_spacing=10,
             corner_radius=35,
         )
-        # btn = tk.Button(self.page_converter, text="Select File & Convert", command=self.convert,
-        #                 bg="#2ecc71", fg="black", width=25, height=2, font=("Segoe UI", 12, "bold"))
-        btn.pack(pady=10)
-
-
-
-        # btn1.grid(row=1, column=1)
+        conv_btn.pack(pady=10)
 
     def build_viewer_page(self):
-        lbl = tk.Label(self.page_viewer, text="Open .ayas File",
-                       font=("Segoe UI", 28), bg="black", fg="white")
-        lbl.pack(pady=(50, 20))
-        btn = customtkinter.CTkButton(
-            self.page_viewer,
+        heading_view = tk.Label(self.pg_view_b, text="Open .ayas File", font=("Segoe UI", 28), bg="black", fg="white")
+        heading_view.pack(pady=(50, 20))
+        select_btn = customtkinter.CTkButton(
+            self.pg_view_b,
             text="Select .ayas File",
             command=self.view,
             fg_color="#3498db",
@@ -137,53 +105,43 @@ class AyasApp:
             border_spacing=10,
             corner_radius=35,
         )
-        # btn = tk.Button(self.page_viewer, text="Select .ayas File", command=self.view,
-        #                 bg="#3498db", fg="black", width=25, height=2, font=("Segoe UI", 12, "bold"))
-        btn.pack(pady=10)
+        select_btn.pack(pady=10)
 
-        # Added explicit height to canvas
-        self.canvas = tk.Canvas(
-            self.page_viewer, width=700, height=500, bg="#222222", highlightthickness=0)
-        self.canvas.pack(pady=30)
+        self.view_canvas = tk.Canvas(self.pg_view_b, width=700, height=500, bg="#222222", highlightthickness=0)
+        self.view_canvas.pack(pady=30)
 
     def show_converter_page(self):
-        # Bring the converter frame to the top of the stack
-        self.page_converter.tkraise()
+        self.pg_conv_a.tkraise()
 
     def show_viewer_page(self):
-        # Bring the viewer frame to the top of the stack
-        self.page_viewer.tkraise()
-
-
+        self.pg_view_b.tkraise()
 
     def convert(self):
-        path = filedialog.askopenfilename(
-            filetypes=[("Image files", "*.jpg *.jpeg *.png")])
-        if path:
+        file_choice_x = filedialog.askopenfilename(filetypes=[("Image files", "*.jpg *.jpeg *.png")])
+        if file_choice_x:
             try:
-                styled = apply_comic_effect(path)
-                out_path = os.path.splitext(path)[0] + ".ayas"
-                save_ayas(styled, out_path)
-                messagebox.showinfo("Done!", f"Saved as:\n{out_path}")
-            except Exception as e:
-                messagebox.showerror("Error", f"Failed to convert: {e}")
+                result_img_u = apply_comic_effect(file_choice_x)
+                save_path_r = os.path.splitext(file_choice_x)[0] + ".ayas"
+                save_ayas(result_img_u, save_path_r)
+                messagebox.showinfo("Done!", f"Saved as:\n{save_path_r}")
+            except Exception as err_v:
+                messagebox.showerror("Error", f"Failed to convert: {err_v}")
 
     def view(self):
-        path = filedialog.askopenfilename(filetypes=[("Ayas Files", "*.ayas")])
-        if path:
+        file_choice_y = filedialog.askopenfilename(filetypes=[("Ayas Files", "*.ayas")])
+        if file_choice_y:
             try:
-                img_array = load_ayas(path)
-                img_pil = Image.fromarray(img_array)
-                img_pil.thumbnail((600, 600))
-                self.tk_img = ImageTk.PhotoImage(img_pil)
-                # Clear previous image if any, then draw new one
-                self.canvas.delete("all")
-                self.canvas.create_image(350, 250, image=self.tk_img)
-            except Exception as e:
-                messagebox.showerror("Error", f"Failed to load: {e}")
+                arr_img_s = load_ayas(file_choice_y)
+                pil_img_t = Image.fromarray(arr_img_s)
+                pil_img_t.thumbnail((600, 600))
+                self.tk_img = ImageTk.PhotoImage(pil_img_t)
+                self.view_canvas.delete("all")
+                self.view_canvas.create_image(350, 250, image=self.tk_img)
+            except Exception as err_w:
+                messagebox.showerror("Error", f"Failed to load: {err_w}")
 
 
 if __name__ == "__main__":
-    root = tk.Tk()
-    app = AyasApp(root)
-    root.mainloop()
+    wnd_main = tk.Tk()
+    app = AyasApp(wnd_main)
+    wnd_main.mainloop()

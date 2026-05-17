@@ -17,4 +17,14 @@ The app has a converter and a viewer, the converter converts a normal image file
 2. **Install the Required Libraries:**
    Open your terminal or command prompt and run:
    ```bash
-   pip install opencv-python numpy Pillow
+   pip install -r requirements.txt
+
+
+## Run
+
+1. Make sure you have the reqd. packages installed.
+2. Run the application:
+
+```bash
+python writer.py
+```
